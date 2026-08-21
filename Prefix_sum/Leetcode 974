@@ -1,1 +1,28 @@
+class Solution {
+    public int subarraysDivByK(int[] nums, int k) {
+        int[] remainderCount = new int[k];
+        remainderCount[0] = 1;
 
+        int prefixSum = 0;
+        int count = 0;
+
+        for (int num : nums) {
+            prefixSum += num;
+
+            int remainder = prefixSum % k;
+
+            // Handle negative remainders
+            if (remainder < 0) {
+                remainder += k;
+            }
+
+            // Every previous same remainder forms a valid subarray
+            count += remainderCount[remainder];
+
+            // Store this remainder
+            remainderCount[remainder]++;
+        }
+
+        return count;
+    }
+}
