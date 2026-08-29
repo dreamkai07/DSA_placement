@@ -1,1 +1,71 @@
+class Solution {
+    public ListNode reverseEvenLengthGroups(ListNode head) {
 
+        ListNode curr = head;
+        ListNode prev = null;
+
+        int groupSize = 1;
+
+        while (curr != null) {
+
+            // Find the actual size of this group
+            ListNode temp = curr;
+            int size = 0;
+
+            while (temp != null && size < groupSize) {
+                temp = temp.next;
+                size++;
+            }
+
+            // Save the first node of the next group
+            ListNode nextGroup = temp;
+
+            // If group size is even, reverse this group
+            if (size % 2 == 0) {
+
+                ListNode groupTail = curr;
+                ListNode reversed = null;
+                ListNode node = curr;
+
+                for (int i = 0; i < size; i++) {
+                    ListNode next = node.next;
+
+                    node.next = reversed;
+                    reversed = node;
+                    node = next;
+                }
+
+                // Connect previous group to reversed group
+                if (prev != null) {
+                    prev.next = reversed;
+                } else {
+                    head = reversed;
+                }
+
+                // groupTail is now the end of reversed group
+                groupTail.next = nextGroup;
+
+                // Update prev
+                prev = groupTail;
+
+            } else {
+                // Group is odd, so don't reverse it
+
+                prev = curr;
+
+                for (int i = 1; i < size; i++) {
+                    prev = prev.next;
+                }
+
+                prev.next = nextGroup;
+            }
+
+            // Move to next group
+            curr = nextGroup;
+
+            groupSize++;
+        }
+
+        return head;
+    }
+}
