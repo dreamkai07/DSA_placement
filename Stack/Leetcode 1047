@@ -1,1 +1,19 @@
+class Solution {
+    public String removeDuplicates(String s) {
+        StringBuilder stack = new StringBuilder();
 
+        for (char c : s.toCharArray()) {
+            int n = stack.length();
+
+            // If current character matches the top, remove it
+            if (n > 0 && stack.charAt(n - 1) == c) {
+                stack.deleteCharAt(n - 1);
+            } else {
+                // Otherwise, add it
+                stack.append(c);
+            }
+        }
+
+        return stack.toString();
+    }
+}
