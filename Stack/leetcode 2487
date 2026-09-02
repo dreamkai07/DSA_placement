@@ -1,1 +1,46 @@
+```java
+class Solution {
+    public ListNode removeNodes(ListNode head) {
+
+        // Step 1: Reverse the linked list
+        head = reverse(head);
+
+        int max = 0;
+        ListNode current = head;
+        ListNode previous = null;
+
+        // Step 2: Remove nodes smaller than maximum seen
+        while (current != null) {
+
+            if (current.val < max) {
+                // Remove current node
+                previous.next = current.next;
+            } else {
+                // Keep current node
+                max = current.val;
+                previous = current;
+            }
+
+            current = current.next;
+        }
+
+        // Step 3: Reverse again to restore original order
+        return reverse(head);
+    }
+
+    private ListNode reverse(ListNode head) {
+        ListNode previous = null;
+        ListNode current = head;
+
+        while (current != null) {
+            ListNode next = current.next;
+            current.next = previous;
+            previous = current;
+            current = next;
+        }
+
+        return previous;
+    }
+}
+```
 
