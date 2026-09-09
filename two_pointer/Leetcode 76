@@ -1,1 +1,64 @@
+class Solution {
+    public String minWindow(String s, String t) {
+        
+        if (s.length() < t.length()) {
+            return "";
+        }
 
+        int[] count = new int[128];
+
+        // Store frequency of characters in t
+        for (char c : t.toCharArray()) {
+            count[c]++;
+        }
+
+        int left = 0;
+        int right = 0;
+
+        int required = t.length();
+
+        int minLength = Integer.MAX_VALUE;
+        int startIndex = 0;
+
+        while (right < s.length()) {
+
+            char rightChar = s.charAt(right);
+
+            // If this character is needed
+            if (count[rightChar] > 0) {
+                required--;
+            }
+
+            // Include character in window
+            count[rightChar]--;
+
+            // When we have all characters from t
+            while (required == 0) {
+
+                // Update minimum window
+                if (right - left + 1 < minLength) {
+                    minLength = right - left + 1;
+                    startIndex = left;
+                }
+
+                char leftChar = s.charAt(left);
+
+                // Remove left character from window
+                count[leftChar]++;
+
+                // If this character becomes required again
+                if (count[leftChar] > 0) {
+                    required++;
+                }
+
+                left++;
+            }
+
+            right++;
+        }
+
+        return minLength == Integer.MAX_VALUE
+                ? ""
+                : s.substring(startIndex, startIndex + minLength);
+    }
+}
