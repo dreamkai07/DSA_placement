@@ -1,1 +1,35 @@
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
 
+        int left = 1;
+        int right = 0;
+
+        // Find the maximum pile
+        for (int pile : piles) {
+            right = Math.max(right, pile);
+        }
+
+        while (left < right) {
+
+            int mid = left + (right - left) / 2;
+
+            long hoursNeeded = 0;
+
+            // Calculate hours needed at speed mid
+            for (int pile : piles) {
+                hoursNeeded += (pile + mid - 1L) / mid;
+            }
+
+            // If Koko can finish, try a slower speed
+            if (hoursNeeded <= h) {
+                right = mid;
+            } 
+            // Otherwise, she needs to eat faster
+            else {
+                left = mid + 1;
+            }
+        }
+
+        return left;
+    }
+}
