@@ -1,0 +1,30 @@
+
+class Solution {
+    public int hIndex(int[] citations) {
+
+        int n = citations.length;
+        int left = 0;
+        int right = n - 1;
+
+        while (left <= right) {
+
+            int mid = left + (right - left) / 2;
+
+            // Number of papers from mid to the end
+            int papers = n - mid;
+
+            if (citations[mid] >= papers) {
+                // This can be a valid h-index.
+                // Try to find a larger h-index on the left.
+                right = mid - 1;
+            } else {
+                // Not enough citations.
+                // Move to the right.
+                left = mid + 1;
+            }
+        }
+
+        return n - left;
+    }
+}
+
