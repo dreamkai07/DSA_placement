@@ -1,1 +1,48 @@
+class Solution {
+    public int maximumCandies(int[] candies, long k) {
 
+        long total = 0;
+        int max = 0;
+
+        for (int candy : candies) {
+            total += candy;
+            max = Math.max(max, candy);
+        }
+
+        // Not enough candies to give at least 1 to every child
+        if (total < k) {
+            return 0;
+        }
+
+        int low = 1;
+        int high = max;
+        int ans = 0;
+
+        while (low <= high) {
+
+            int mid = low + (high - low) / 2;
+
+            long children = 0;
+
+            for (int candy : candies) {
+                children += candy / mid;
+
+                // Avoid unnecessary overflow
+                if (children >= k) {
+                    break;
+                }
+            }
+
+            if (children >= k) {
+                // mid is possible, try a bigger answer
+                ans = mid;
+                low = mid + 1;
+            } else {
+                // mid is too large
+                high = mid - 1;
+            }
+        }
+
+        return ans;
+    }
+}
