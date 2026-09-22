@@ -1,1 +1,30 @@
+class Solution {
+    public int maximumPopulation(int[][] logs) {
 
+        int[] population = new int[2051];
+
+        // Count people alive in each year
+        for (int[] log : logs) {
+            int birth = log[0];
+            int death = log[1];
+
+            for (int year = birth; year < death; year++) {
+                population[year]++;
+            }
+        }
+
+        int maxPopulation = 0;
+        int answer = 1950;
+
+        // Find earliest year with maximum population
+        for (int year = 1950; year <= 2050; year++) {
+
+            if (population[year] > maxPopulation) {
+                maxPopulation = population[year];
+                answer = year;
+            }
+        }
+
+        return answer;
+    }
+}
